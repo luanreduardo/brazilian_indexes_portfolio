@@ -1,0 +1,10 @@
+---
+title: "FRAPO by Bernhard Pfaff"
+author: "Luan Rezende Eduardo"
+date: "10/10/2019"
+output: html_document
+---
+
+### 10.2.2
+
+Breakdown points -- most commonly utilized measure for assessing the robustness of an estimator
