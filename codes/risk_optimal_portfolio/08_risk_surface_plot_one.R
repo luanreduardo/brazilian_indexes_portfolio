@@ -2,15 +2,17 @@
 
 ####risk surface plot of multi-asset portfolio, part one
 
-#install.packages("Rdonlp2", repos="http://R-Forge.R-project.org")
+#install.packages("Rdonlp2", repos = "http://R-Forge.R-project.org")
 library(FRAPO)
 library(fPortfolio)
+library(Rdonlp2)
 
-#loading data set
-data(MultiAsset)
+br_indexes <- read.csv('data/pricesIndBr.csv')
+rownames(br_indexes) <- br_indexes[, 'Index']
+br_indexes <- br_indexes[, -1]
 
 #creating time series of prices and returns
-pr <- timeSeries(MultiAsset, charvec = rownames(MultiAsset))
+pr <- timeSeries(br_indexes, charvec = rownames(br_indexes))
 data <- returns(pr, method = 'discrete',
                 percentage = T, trim = T)
 
@@ -54,4 +56,5 @@ for (j in idx) {
   dropt[idxRow[j], ] <- c(crossprod(wopt, mu),
                           sqrt(crossprod(wopt, Sigma)
                                %*% wopt))
+  print(j)
 }
