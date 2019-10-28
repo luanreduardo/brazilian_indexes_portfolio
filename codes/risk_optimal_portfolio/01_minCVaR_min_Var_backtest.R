@@ -28,6 +28,7 @@ from <- time(br_returns)[1:length(end)] #start point for sliding window
 wGMV <- matrix(NA, ncol = ncol(br_returns), nrow = length(end)) #defining matrices, weights as rows
 wCVAR <- wGMV
 
+#TAKES A LONG TIME TO COMPUTE
 for (i in 1:length(end)) {
   series <- window(br_returns, start = from[i], end = end[i]) #relevant data window
   gmvpf <- fPortfolio::minvariancePortfolio(data = series, spec = gmv,
@@ -36,4 +37,5 @@ for (i in 1:length(end)) {
   cvarpf <- fPortfolio::minriskPortfolio(data = series, spec = cvar,
                              constraints = 'LongOnly')
   wCVAR[i, ] <- c(getWeights(cvarpf))
+  print(i)
 }

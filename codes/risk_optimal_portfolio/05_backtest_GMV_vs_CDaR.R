@@ -6,18 +6,15 @@ library(FRAPO)
 library(fPortfolio)
 library(PerformanceAnalytics)
 
-#loading of dataset
-data("EuroStoxx50")
-
 #creating timeseries of prices and returns
-pr <- timeSeries(EuroStoxx50, charvec = rownames(EuroStoxx50))
+pr <- timeSeries(br_indexes, charvec = rownames(br_indexes))
 NAssets <- ncol(pr)
 RDP <- na.omit((pr / lag(pr, k = 1) - 1) * 100) #discrete returns
 
 ###back-test of GMV vs. CDaR, recursive window
 
 #start and end dates
-to <- time(RDP)[208:nrow(RDP)]
+to <- time(RDP)[1260:nrow(RDP)]
 from <- rep(start(RDP), length(to))
 
 ##portfolio specification
@@ -32,7 +29,7 @@ BoxC <- c('minsumW[1:NAssets] = 0.0', 'maxsumW[1:NAssets] = 1.0')
 #initialising weights matrices
 wMV <- wCD <- matrix(NA, ncol = ncol(RDP), nrow = length(to))
 
-#coducting backtest
+#coducting backtest (ENJOY YOUR LIFE, IT'S GONNA TAKE FOREVER)
 for (i in 1:length(to)) {
   series <- window(RDP, start = from[i], end = to[i])
   prices <- window(pr, start = from[i], end = to[i])
@@ -42,6 +39,7 @@ for (i in 1:length(to)) {
   cd <- PCDaR(prices, alpha = DDalpha, bound = DDbound, softBudget = T)
   wMV[i, ] <- c(getWeights(mv))
   wCD[i, ] <- Weights(cd)
+  print(i)
 }
 
 #lagging optimal weights and sub-sample of returns
