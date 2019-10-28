@@ -22,8 +22,8 @@ GMVDD <- PerformanceAnalytics::Drawdowns(GMVret) #historical draw-drowns
 
 #plot of draw-downs for GMV
 ylims <- c(-25, 0)
-plot(GMVDD * 100, xlab = '', ylab = 'Draw-downs (percentual)',
-     main = 'Draw-downs de Mínima Variância Global',
+plot(GMVDD * 100, xlab = '', ylab = 'Draw-downs (percentage)',
+     main = 'Draw-downs Global Minimum-Variance',
      ylim = ylims)
 abline(h = 0, col = 'grey')
 grid()
