@@ -40,6 +40,8 @@ AveDD <- PAveDD(br_indexes, AveDD = GMVMaxDD)
 CDaR95 <- PCDaR(br_indexes, alpha = .95, bound = GMVMaxDD)
 CDaRMin95 <- PCDaR(br_indexes, alpha = .95)
 
+
+
 #plot of draw-downs
 oldpar <- par(no.readonly = T)
 par(mfrow = c(2, 2))
@@ -90,5 +92,9 @@ rownames(PMRC) <- colnames(Rets)
 PDR <- apply(WeightMatrix, 2, dr, Sigma = V)
 
 ### SET A SINGLE TABLE AND SAVE
-portfolio_analysis <- 
+portfolio_analysis <- list()
+portfolio_analysis[[1]] <- PES
+portfolio_analysis[[2]] <- PMES
+portfolio_analysis[[3]] <- PMRC
+portfolio_analysis[[4]] <- PDR
 saveRDS(portfolio_analysis, file = 'results/portfolio_analysis.RDS')
