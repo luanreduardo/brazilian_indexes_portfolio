@@ -15,6 +15,10 @@ br_indexes <- br_indexes[, -1]
 br_returns <- na.omit(returnseries(br_indexes, method = 'discrete'),
                                  charvec = rownames(br_indexes)) #computing discrete % returns
 
+saveRDS(br_indexes, 'data/br_indexes.Rds')
+saveRDS(br_returns, 'data/br_returns.Rds')
+
+
 #defining timeseries
 ts_br_indexes <- timeSeries(br_indexes)
 ts_br_returns <- timeSeries(br_returns)
