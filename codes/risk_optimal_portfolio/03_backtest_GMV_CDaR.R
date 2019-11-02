@@ -7,6 +7,8 @@ library(FRAPO)
 library(fPortfolio)
 library(PerformanceAnalytics)
 
+br_indexes <- readRDS('data/br_indexes.Rds')
+
 #creating timeseries of prices and returns
 pr <- timeSeries(br_indexes, charvec = rownames(br_indexes))
 NAssets <- ncol(pr)
@@ -32,18 +34,19 @@ wMV <- wCD <- matrix(NA, ncol = ncol(RDP), nrow = length(to))
 
 #coducting backtest (ENJOY YOUR LIFE, IT'S GONNA TAKE FOREVER)
 for (i in 1:length(to)) {
-  #series <- window(RDP, start = from[i], end = to[i])
-  prices <- window(pr, start = from[i], end = to[i])
-  #mv <- minvariancePortfolio(data = series,
-  #                           spec = mvspec,
-  #                           constraints = BoxC)
-  cd <- PCDaR(prices, alpha = DDalpha, bound = DDbound, softBudget = T)
-  #wMV[i, ] <- c(getWeights(mv))
-  wCD[i, ] <- Weights(cd)
+  series <- window(RDP, start = from[i], end = to[i])
+  #prices <- window(pr, start = from[i], end = to[i])
+  mv <- minvariancePortfolio(data = series,
+                             spec = mvspec,
+                             constraints = BoxC)
+  #cd <- PCDaR(prices, alpha = DDalpha, bound = DDbound, softBudget = T)
+  wMV[i, ] <- c(getWeights(mv))
+  #wCD[i, ] <- Weights(cd)
   print(i)
 }
 
-saveRDS(wMV, 'data/MV_weights.Rsd')
+saveRDS(wMV, 'data/MV_weights.Rds')
+#saveRDS(wCD, 'data/CDaR_weights.Rds')
 
 #lagging optimal weights and sub-sample of returns
 wMV <- rbind(rep(NA, ncol(RDP)), wMV[-nrow(wMV), ])

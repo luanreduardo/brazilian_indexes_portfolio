@@ -6,6 +6,7 @@ library(fPortfolio) #for construction resources
 library(FRAPO) #for data set
 library(PerformanceAnalytics) #for analysis resources
 
+br_indexes <- readRDS('data/br_indexes.Rds')
 
 #time series of discrete returns
 Rets <- returnseries(br_indexes, method = 'discrete',
